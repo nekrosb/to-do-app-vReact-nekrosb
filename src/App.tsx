@@ -32,8 +32,12 @@ export default function App() {
     <InputTitle />
     <InputDate />
     
-    <ButtonCreateTodo />
+    <div className='create-menu-buttons'>
+        <ButtonCreateTodo />
     <ButtonCloseTodo />
+    </div>
+
+    
 </div>
 
 

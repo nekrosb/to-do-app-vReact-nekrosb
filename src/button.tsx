@@ -19,10 +19,10 @@ export function ButtonDeleteTodo() {
 
 
 export function ButtonCreateTodo() {
-    return <button type="button" className="create-menu-buttons btn-create">Create Todo</button>
+    return <button type="button" className="btn btn-create">Create Todo</button>
 }
 
 
 export function ButtonCloseTodo() {
-    return <button type="button" className="create-menu-buttons btn-close">Close</button>
+    return <button type="button" className="btn btn-close">Close</button>
 }

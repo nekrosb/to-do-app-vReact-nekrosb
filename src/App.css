@@ -14,7 +14,7 @@ body {
 
 /* ====== MAIN CONTAINER ====== */
 .main-container {
-    width: 100vw;
+    width: 100%;
     background: #ffffff;
     padding: 30px;
     border-radius: 20px;
@@ -117,13 +117,14 @@ body {
 
 /* ====== CREATE TODO MENU (POPUP) ====== */
 .create-menu-content {
-    background: black;
-    width: 500px;
-    padding: 25px;
-    border-radius: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    background: #fffdd0;
+display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 5vw;
     box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     margin: 1vw 5vw 1vw 5vw;
 }

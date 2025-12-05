@@ -1,26 +1,178 @@
+/* ====== GLOBAL ====== */
+* {
+    
+    font-family: "Inter", sans-serif;
+}
+
 body {
-  margin: 0;
-  color: #fff;
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  background-image: linear-gradient(to bottom, #020917, #101725);
+    background: #f2f4f7;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    color: black;
 }
 
-.content {
-  display: flex;
-  min-height: 100vh;
-  line-height: 1.1;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
+/* ====== MAIN CONTAINER ====== */
+.main-container {
+    width: 100vw;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.content h1 {
-  font-size: 3.6rem;
-  font-weight: 700;
+/* ====== BUTTONS ====== */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+    font-weight: 500;
 }
 
-.content p {
-  font-size: 1.2rem;
-  font-weight: 400;
-  opacity: 0.5;
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+
+.btn-open {
+    background: #4a7fff;
+    color: white;
+}
+
+.btn-open:hover {
+    background: #3b6eee;
+}
+
+
+.btn-delete-all {
+    background: #ff5f5f;
+    color: white;
+}
+
+.btn-delete-all:hover {
+    background: #e44a4a;
+}
+
+
+.btn-complete {
+    background: #4ccb7a;
+    color: white;
+}
+
+.btn-complete:hover {
+    background: #41b269;
+}
+
+.btn-delete {
+    background: #ff6b6b;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #e55b5b;
+}
+
+
+/* ====== TODOS LIST CONTAINER ====== */
+.todos-container {
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    min-width: 10vw;
+    min-height: 10vw;
+    padding: 50px 10px 5px 10px;
+    margin: 3vw 13vw 0vw 13vw;
+    
+}
+
+/* ====== TODO ITEM ====== */
+.todo-item {
+    background: #fafafa;
+    border-radius: 15px;
+    border-color: blue;
+    border-style: ridge;
+    border-width: 15px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.todo-item.completed {
+    background: #e6ffe9;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/* ====== CREATE TODO MENU (POPUP) ====== */
+.create-menu-content {
+    background: black;
+    width: 500px;
+    padding: 25px;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    margin: 1vw 5vw 1vw 5vw;
+}
+
+
+.create-menu-content h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+
+.input-field,
+.input-date {
+    width: 30%;
+    padding: 12px 14px;
+    border: 1px solid #dce1e7;
+    border-radius: 12px;
+    font-size: 16px;
+
+}
+
+.input-field:focus,
+.input-date:focus {
+    border-color: #4a7fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74,127,255,0.2);
+}
+
+
+.create-menu-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-create {
+    background: #4a7fff;
+    color: white;
+}
+
+.btn-create:hover {
+    background: #3b6eee;
+}
+
+.btn-close {
+    background: #d7d7d7;
+    color: #333;
+}
+
+.btn-close:hover {
+    background: #c4c4c4;
 }

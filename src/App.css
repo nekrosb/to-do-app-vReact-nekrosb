@@ -1,179 +1,168 @@
 /* ====== GLOBAL ====== */
 * {
-    
-    font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 body {
-    background: #f2f4f7;
-    display: flex;
-    justify-content: center;
-    padding: 40px;
-    color: black;
+  background: #f2f4f7;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  color: black;
 }
 
 /* ====== MAIN CONTAINER ====== */
 .main-container {
-    width: 100%;
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  width: 100%;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* ====== BUTTONS ====== */
 .btn {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.2s;
-    font-weight: 500;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+  font-weight: 500;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
-
 .btn-open {
-    background: #4a7fff;
-    color: white;
+  background: #4a7fff;
+  color: white;
 }
 
 .btn-open:hover {
-    background: #3b6eee;
+  background: #3b6eee;
 }
 
-
 .btn-delete-all {
-    background: #ff5f5f;
-    color: white;
+  background: #ff5f5f;
+  color: white;
 }
 
 .btn-delete-all:hover {
-    background: #e44a4a;
+  background: #e44a4a;
 }
 
-
 .btn-complete {
-    background: #4ccb7a;
-    color: white;
+  background: #4ccb7a;
+  color: white;
 }
 
 .btn-complete:hover {
-    background: #41b269;
+  background: #41b269;
 }
 
 .btn-delete {
-    background: #ff6b6b;
-    color: white;
+  background: #ff6b6b;
+  color: white;
 }
 
 .btn-delete:hover {
-    background: #e55b5b;
+  background: #e55b5b;
 }
-
 
 /* ====== TODOS LIST CONTAINER ====== */
 .todos-container {
-    background: #f9f9f9;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    min-width: 10vw;
-    min-height: 10vw;
-    padding: 50px 10px 5px 10px;
-    margin: 3vw 13vw 0vw 13vw;
-    
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  min-width: 10vw;
+  min-height: 10vw;
+  padding: 50px 10px 5px 10px;
+  margin: 3vw 13vw 0vw 13vw;
 }
 
 /* ====== TODO ITEM ====== */
 .todo-item {
-    background: #fafafa;
-    border-radius: 15px;
-    border-color: blue;
-    border-style: ridge;
-    border-width: 15px;
-    padding: 18px 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
+  background: #fafafa;
+  border-radius: 15px;
+  border-color: blue;
+  border-style: ridge;
+  border-width: 15px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .todo-item.completed {
-    background: #e6ffe9;
-    text-decoration: line-through;
-    opacity: 0.7;
+  background: #e6ffe9;
+  text-decoration: line-through;
+  opacity: 0.7;
 }
 
 /* ====== CREATE TODO MENU (POPUP) ====== */
 .create-menu-content {
-    background: #fffdd0;
-display: flex;
+  background: #fffdd0;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 20px;
   padding: 5vw;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-    margin: 1vw 5vw 1vw 5vw;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  margin: 1vw 5vw 1vw 5vw;
 }
-
 
 .create-menu-content h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
+  font-size: 22px;
+  margin-bottom: 10px;
 }
-
 
 .input-field,
 .input-date {
-    width: 30%;
-    padding: 12px 14px;
-    border: 1px solid #dce1e7;
-    border-radius: 12px;
-    font-size: 16px;
-
+  width: 30%;
+  padding: 12px 14px;
+  border: 1px solid #dce1e7;
+  border-radius: 12px;
+  font-size: 16px;
 }
 
 .input-field:focus,
 .input-date:focus {
-    border-color: #4a7fff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(74,127,255,0.2);
+  border-color: #4a7fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 127, 255, 0.2);
 }
 
-
 .create-menu-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
 .btn-create {
-    background: #4a7fff;
-    color: white;
+  background: #4a7fff;
+  color: white;
 }
 
 .btn-create:hover {
-    background: #3b6eee;
+  background: #3b6eee;
 }
 
 .btn-close {
-    background: #d7d7d7;
-    color: #333;
+  background: #d7d7d7;
+  color: #333;
 }
 
 .btn-close:hover {
-    background: #c4c4c4;
+  background: #c4c4c4;
 }

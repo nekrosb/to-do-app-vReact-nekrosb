@@ -1,57 +1,28 @@
 import './App.css';
-import {
-  ButtonComplete,
-  ButtonOpenCreateTodo,
-  ButtonCreateTodo,
-  ButtonDeleteAll,
-  ButtonDeleteTodo,
-  ButtonCloseTodo,
-} from './button';
-import { InputTitle, InputDate } from './input';
+import { Button } from './button';
+import { MenuCreateTodo } from './create-todo-menu';
+import { Todo } from './todo';
+import type {todoData} from './types';
 
-function Todo() {
-  return (
-    <div className="todo-item">
-      <ul>
-        <li>
-          <h3>title</h3>
-        </li>
-        <li>date</li>
-        <li>
-          <ButtonComplete />
-        </li>
-        <li>
-          <ButtonDeleteTodo />
-        </li>
-      </ul>
-    </div>
-  );
-}
 
-export default function App() {
-  return (
-    <div className="main-container">
-      <header>
-        <h1>todo app</h1>
-        <ButtonOpenCreateTodo />
-        <ButtonDeleteAll />
-      </header>
-      <div className="todos-container">
-        <Todo />
-        <Todo />
-        <Todo />
-      </div>
+export default function app(): JSX.Element {
+    return (
+        <div className='main-container'>
+            <header>
+                <h1>Todo App</h1>
 
-      <div className="create-menu-content">
-        <h2>Create New Todo</h2>
-        <InputTitle />
-        <InputDate />
+                <Button classss='btn btn-open' onClick={() => console.log("add todo")} title='add todo' />
+                    <Button classss='btn btn-delete-all' onClick={() => console.log("clear todos")} title='clear todos' />
+            </header>
 
-        <div className="create-menu-buttons">
-          <ButtonCreateTodo />
-          <ButtonCloseTodo />
+<div className='todos-container'>
+    <Todo todoData={{id: 12, title: "first todo", content: "this is my first todo", date: "2024-10-10", done: false}} />
+    <Todo todoData={{id: 13, title: "second todo", content: "this is my second todo", date: "2024-11-11", done: true}} />
+</div>
+
+            <MenuCreateTodo />
+
+
         </div>
-      </div>
-    </div>
-  );
+    )
 }

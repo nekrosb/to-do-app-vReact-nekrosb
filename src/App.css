@@ -110,7 +110,7 @@ body {
 
 /* ====== CREATE TODO MENU (POPUP) ====== */
 .create-menu-content {
-  background: #fffdd0;
+  background: black;
   display: flex;
   justify-content: center;
   align-items: center;

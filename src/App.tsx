@@ -2,10 +2,10 @@ import './App.css';
 import { Button } from './button';
 import { MenuCreateTodo } from './create-todo-menu';
 import { Todo } from './todo';
-import type {todoData} from './types';
 
 
-export default function app(): JSX.Element {
+
+export default function App(): JSX.Element {
     return (
         <div className='main-container'>
             <header>

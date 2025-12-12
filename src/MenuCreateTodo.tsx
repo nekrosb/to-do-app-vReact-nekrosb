@@ -1,7 +1,7 @@
 import './App.css';
-import { Input } from './input';
-import { Button } from './button';
 import React, { useRef } from 'react';
+import { Button } from './Buttons';
+import { Input } from './Input';
 
 export function MenuCreateTodo(): JSX.Element {
   const titleRef = useRef<HTMLInputElement>(null);

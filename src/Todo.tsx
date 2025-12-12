@@ -1,5 +1,6 @@
+import { Button } from './Buttons';
 import type { todoData } from './types';
-import { Button } from './button';
+
 type props = {
   todoData: todoData;
 };

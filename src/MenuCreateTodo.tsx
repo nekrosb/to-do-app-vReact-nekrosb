@@ -25,7 +25,7 @@ export function MenuCreateTodo({ onClose, setTodos }: Props) {
       const date = formData.get('date') as string;
 
        if (!title || !content || !date) {
-        return { error: 'Заполни все поля' };
+        return { error: 'you must fill all fields' };
       }
 
       setTodos((t) => [

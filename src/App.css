@@ -90,7 +90,7 @@ body {
 
 /* ====== TODO ITEM ====== */
 .todo-item {
-  background: #fafafa;
+  background: black;
   border-radius: 15px;
   border-color: blue;
   border-style: ridge;
@@ -103,14 +103,14 @@ body {
 }
 
 .todo-item.completed {
-  background: bl;
+  background: #d3d3d3;
   text-decoration: line-through;
   opacity: 0.7;
 }
 
 /* ====== CREATE TODO MENU (POPUP) ====== */
 .create-menu-content {
-  background: black;
+  background: whitesmoke;
   display: flex;
   justify-content: center;
   align-items: center;

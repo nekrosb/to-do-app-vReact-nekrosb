@@ -11,7 +11,11 @@ const funcToSwitch = (scrin: string, setSwitcher: React.Dispatch<React.SetStateA
   setSwitcher(scrin)
 }
 
-const [todos, setTodos] = useState<todoData[]>([{id: 11, title: 'sample todo', content: "this is a sample todo", date: "2024-10-10", done: false}, {id: 12, title: 'sample todo', content: "this is a sample todo", date: "2024-10-10", done: false}])
+const [todos, setTodos] = useState<todoData[]>([])
+
+const deleteTodo = (id: number) => {
+  setTodos((t) => t.filter(todo => todo.id !== id))
+}
 
   return (
     <div className="main-container">
@@ -28,6 +32,7 @@ const [todos, setTodos] = useState<todoData[]>([{id: 11, title: 'sample todo', c
 
 {switcher === "main" && (
         <Button
+        type="button"
           classss="btn btn-delete-all"
           onClick={() => console.log('clear todos')}
           title="clear todos"
@@ -36,26 +41,8 @@ const [todos, setTodos] = useState<todoData[]>([{id: 11, title: 'sample todo', c
       </header>
 {switcher === "main" && (
       <div className="todos-container">
-        <Todo
-          todoData={{
-            id: 12,
-            title: 'first todo',
-            content: 'this is my first todo',
-            date: '2024-10-10',
-            done: false,
-          }}
-        />
-        <Todo
-          todoData={{
-            id: 13,
-            title: 'second todo',
-            content: 'this is my second todo',
-            date: '2024-11-11',
-            done: true,
-          }}
-        />
         {todos.map(t => {return (
-          <Todo key={t.id} todoData={t} />
+          <Todo key={t.id} todoData={t} deleteTodo={deleteTodo} />
         )})}
       </div>
 )}

@@ -4,6 +4,7 @@ import {
   type Dispatch,
   type SetStateAction
 } from 'react';
+import {postTodo} from './api';
 import { Button } from './Buttons';
 import { Input } from './Input';
 import type { todoData } from './types';
@@ -28,15 +29,11 @@ export function MenuCreateTodo({ onClose, setTodos }: Props) {
         return { error: 'you must fill all fields' };
       }
 
+const todo = await postTodo({title: title, content: content, due_date: date, done: false})
+
       setTodos((t) => [
         ...t,
-        {
-          id: Date.now(),
-          title,
-          content,
-          date,
-          done: false,
-        },
+        todo
       ]);
 
       onClose?.();

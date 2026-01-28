@@ -2,8 +2,7 @@ import './App.css';
 
 type Props = {
   classss: string;
-  nameInput: string,
-  onClick?: (...args: any[]) => void;
+  nameInput: string;
   typeInput: string;
   placeholderInput: string;
   refInput?: React.RefObject<HTMLInputElement>;
@@ -12,17 +11,15 @@ type Props = {
 export function Input({
   nameInput,
   classss,
-  onClick,
   typeInput,
   placeholderInput,
   refInput,
 }: Props): JSX.Element {
   return (
     <input
-    name={nameInput}
+      name={nameInput}
       type={typeInput}
       className={classss}
-      onKeyDown={onClick}
       ref={refInput}
       placeholder={placeholderInput}
     />

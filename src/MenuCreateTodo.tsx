@@ -8,13 +8,20 @@ import type { todoData } from './types';
 type Props = {
   onClose?: () => void;
   setTodos: Dispatch<SetStateAction<todoData[]>>;
+  idTodo?: number;
+  submit?: (
+    idTodo: number,
+    title: string,
+    content: string,
+    date: string,
+  ) => Promise<void>;
 };
 
 type FormState = {
   error?: string;
 };
 
-export function MenuCreateTodo({ onClose, setTodos }: Props) {
+export function MenuCreateTodo({ onClose, setTodos, idTodo, submit }: Props) {
   const [state, createTodo, isPending] = useActionState<FormState, FormData>(
     async (_prevState, formData) => {
       const title = formData.get('title') as string;
@@ -25,15 +32,18 @@ export function MenuCreateTodo({ onClose, setTodos }: Props) {
         return { error: 'you must fill all fields' };
       }
 
-      const todo = await postTodo({
-        title: title,
-        content: content,
-        due_date: date,
-        done: false,
-      });
+      if (submit && idTodo !== undefined) {
+        await submit(idTodo, title, content, date);
+      } else {
+        const todo = await postTodo({
+          title: title,
+          content: content,
+          due_date: date,
+          done: false,
+        });
 
-      setTodos((t) => [...t, todo]);
-
+        setTodos((t) => [...t, todo]);
+      }
       onClose?.();
       return {};
     },

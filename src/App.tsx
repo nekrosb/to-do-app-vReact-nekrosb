@@ -4,7 +4,12 @@ import { Button } from './Buttons';
 import { MenuCreateTodo } from './MenuCreateTodo';
 import { Todo } from './Todo';
 import { useState, useEffect } from 'react';
-import { fetchTodos, deleteTodoFromApi, doneTodoInApi } from './api';
+import {
+  fetchTodos,
+  deleteTodoFromApi,
+  doneTodoInApi,
+  changeTodoInApi,
+} from './api';
 import { LoaderScrin } from './loaderScrin';
 
 export default function App(): JSX.Element {
@@ -18,6 +23,7 @@ export default function App(): JSX.Element {
 
   const [todos, setTodos] = useState<todoData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [activeTodoId, setActiveTodoId] = useState<number | null>(null);
 
   const load = async () => {
     try {
@@ -42,17 +48,35 @@ export default function App(): JSX.Element {
   }, []);
 
   const doneTodo = async (id: number) => {
-    const t: todoData[] = [...todos]
+    const t: todoData[] = [...todos];
     const todo = t.find((todo) => todo.id === id);
     if (!todo) {
-      return
+      return;
     }
-    todo.done = !todo.done
-    await doneTodoInApi(todo)
+    todo.done = !todo.done;
+    await doneTodoInApi(todo);
 
-    setTodos(t)
-  }
+    setTodos(t);
+  };
 
+  const changeingTodo = async (
+    id: number,
+    title: string,
+    content: string,
+    date: string,
+  ) => {
+    const t = [...todos];
+    const aldTodo = t.find((t) => t.id === id);
+    if (!aldTodo) {
+      return;
+    }
+    aldTodo.title = title;
+    aldTodo.content = content;
+    aldTodo.due_date = date;
+
+    await changeTodoInApi(aldTodo);
+    setTodos(t);
+  };
 
   return (
     <div className="main-container">
@@ -79,7 +103,18 @@ export default function App(): JSX.Element {
       {switcher === 'main' && !loading && (
         <div className="todos-container">
           {todos.map((t) => {
-            return <Todo key={t.id} todoData={t} deleteTodo={deleteTodo} doneTodo={doneTodo} />;
+            return (
+              <Todo
+                key={t.id}
+                todoData={t}
+                deleteTodo={deleteTodo}
+                doneTodo={doneTodo}
+                onEdit={(): void => {
+                  setActiveTodoId(t.id);
+                  setSwitcher('edit');
+                }}
+              />
+            );
           })}
         </div>
       )}
@@ -90,6 +125,15 @@ export default function App(): JSX.Element {
         <MenuCreateTodo
           onClose={() => funcToSwitch('main', setSwitcher)}
           setTodos={setTodos}
+        />
+      )}
+
+      {switcher === 'edit' && activeTodoId !== null && (
+        <MenuCreateTodo
+          onClose={() => setSwitcher('main')}
+          setTodos={setTodos}
+          idTodo={activeTodoId}
+          submit={changeingTodo}
         />
       )}
     </div>

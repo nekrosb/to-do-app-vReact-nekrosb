@@ -5,6 +5,7 @@ import { MenuCreateTodo } from './MenuCreateTodo';
 import { Todo } from './Todo';
 import { useState, useEffect } from 'react';
 import { fetchTodos, deleteTodoFromApi } from './api';
+import { LoaderScrin } from './loaderScrin';
 
 export default function App(): JSX.Element {
   const [switcher, setSwitcher] = useState("main")
@@ -15,9 +16,14 @@ const funcToSwitch = (scrin: string, setSwitcher: React.Dispatch<React.SetStateA
 const [todos, setTodos] = useState<todoData[]>([])
 const [loading, setLoading] = useState<boolean>(true)
 
+
+
+
+
 const load = async () => {
   try {
     setLoading(true)
+
     const data = await fetchTodos()
     setTodos(data)
   } catch (error) {
@@ -49,7 +55,7 @@ useEffect(() => {load()}, [])
         />
 )}
 
-{switcher === "main" && (
+{switcher === "main" && !loading && (
         <Button
         type="button"
           classss="btn btn-delete-all"
@@ -58,12 +64,16 @@ useEffect(() => {load()}, [])
         />
 )}
       </header>
-{switcher === "main" && (
+{switcher === "main" && !loading && (
       <div className="todos-container">
         {todos.map(t => {return (
           <Todo key={t.id} todoData={t} deleteTodo={deleteTodo} />
         )})}
       </div>
+)}
+
+{switcher === "main" && loading && (
+  <LoaderScrin />
 )}
 
 {switcher === "create" && (

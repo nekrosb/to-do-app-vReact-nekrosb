@@ -1,10 +1,6 @@
 import './App.css';
-import {
-  useActionState,
-  type Dispatch,
-  type SetStateAction
-} from 'react';
-import {postTodo} from './api';
+import { useActionState, type Dispatch, type SetStateAction } from 'react';
+import { postTodo } from './api';
 import { Button } from './Buttons';
 import { Input } from './Input';
 import type { todoData } from './types';
@@ -25,21 +21,23 @@ export function MenuCreateTodo({ onClose, setTodos }: Props) {
       const content = formData.get('content') as string;
       const date = formData.get('date') as string;
 
-       if (!title || !content || !date) {
+      if (!title || !content || !date) {
         return { error: 'you must fill all fields' };
       }
 
-const todo = await postTodo({title: title, content: content, due_date: date, done: false})
+      const todo = await postTodo({
+        title: title,
+        content: content,
+        due_date: date,
+        done: false,
+      });
 
-      setTodos((t) => [
-        ...t,
-        todo
-      ]);
+      setTodos((t) => [...t, todo]);
 
       onClose?.();
       return {};
     },
-    {}
+    {},
   );
 
   return (
@@ -64,15 +62,14 @@ const todo = await postTodo({title: title, content: content, due_date: date, don
         nameInput="date"
         typeInput="date"
         classss="input-date"
-          placeholderInput="date input"
+        placeholderInput="date input"
       />
 
       {state.error && <p className="error">{state.error}</p>}
 
       <div className="create-menu-buttons">
-
         <Button
-        type="submit"
+          type="submit"
           classss="btn btn-create"
           title={isPending ? 'Creating...' : 'Create Todo'}
           onClick={() => {}}
@@ -88,4 +85,3 @@ const todo = await postTodo({title: title, content: content, due_date: date, don
     </form>
   );
 }
-

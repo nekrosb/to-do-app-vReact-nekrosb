@@ -2,7 +2,7 @@ import './App.css';
 
 type Props = {
   classss: string;
-  nameInput: string,
+  nameInput: string;
   typeInput: string;
   placeholderInput: string;
   refInput?: React.RefObject<HTMLInputElement>;
@@ -17,7 +17,7 @@ export function Input({
 }: Props): JSX.Element {
   return (
     <input
-    name={nameInput}
+      name={nameInput}
       type={typeInput}
       className={classss}
       ref={refInput}

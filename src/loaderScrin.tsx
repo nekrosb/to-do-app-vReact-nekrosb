@@ -1,4 +1,4 @@
-import "./loader.css";
+import './loader.css';
 
 export function LoaderScrin(): JSX.Element {
   return (

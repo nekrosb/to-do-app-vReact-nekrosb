@@ -11,23 +11,19 @@ export function Todo({ todoData, deleteTodo }: props): JSX.Element {
     <div className={!todoData.done ? 'todo-item' : 'todo-item completed'}>
       <ul>
         <li>
-      <h3>{todoData.title}</h3>
-      </li>
-      <li>
-      {todoData.content && <p>{todoData.content}</p>}
-      </li>
-      <li>
-      {todoData.due_date && <span>{todoData.due_date}</span>}
-      </li>
+          <h3>{todoData.title}</h3>
+        </li>
+        <li>{todoData.content && <p>{todoData.content}</p>}</li>
+        <li>{todoData.due_date && <span>{todoData.due_date}</span>}</li>
       </ul>
       <Button
-      type='button'
+        type="button"
         title={todoData.done ? 'undo' : 'done'}
         classss="btn btn-complete"
         onClick={() => console.log('todo done')}
       />
       <Button
-      type='button'
+        type="button"
         title="delete"
         classss="btn btn-delete"
         onClick={() => deleteTodo(todoData.id)}

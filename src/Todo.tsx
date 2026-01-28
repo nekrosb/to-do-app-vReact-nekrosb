@@ -4,9 +4,10 @@ import type { todoData } from './types';
 type props = {
   todoData: todoData;
   deleteTodo: (id: number) => void;
+  doneTodo: (id: number) => void;
 };
 
-export function Todo({ todoData, deleteTodo }: props): JSX.Element {
+export function Todo({ todoData, deleteTodo, doneTodo }: props): JSX.Element {
   return (
     <div className={!todoData.done ? 'todo-item' : 'todo-item completed'}>
       <ul>
@@ -20,7 +21,7 @@ export function Todo({ todoData, deleteTodo }: props): JSX.Element {
         type="button"
         title={todoData.done ? 'undo' : 'done'}
         classss="btn btn-complete"
-        onClick={() => console.log('todo done')}
+        onClick={() => doneTodo(todoData.id)}
       />
       <Button
         type="button"

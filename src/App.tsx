@@ -4,7 +4,7 @@ import { Button } from './Buttons';
 import { MenuCreateTodo } from './MenuCreateTodo';
 import { Todo } from './Todo';
 import { useState, useEffect } from 'react';
-import { fetchTodos, deleteTodoFromApi } from './api';
+import { fetchTodos, deleteTodoFromApi, doneTodoInApi } from './api';
 import { LoaderScrin } from './loaderScrin';
 
 export default function App(): JSX.Element {
@@ -41,6 +41,19 @@ export default function App(): JSX.Element {
     load();
   }, []);
 
+  const doneTodo = async (id: number) => {
+    const t: todoData[] = [...todos]
+    const todo = t.find((todo) => todo.id === id);
+    if (!todo) {
+      return
+    }
+    todo.done = !todo.done
+    await doneTodoInApi(todo)
+
+    setTodos(t)
+  }
+
+
   return (
     <div className="main-container">
       <header>
@@ -66,7 +79,7 @@ export default function App(): JSX.Element {
       {switcher === 'main' && !loading && (
         <div className="todos-container">
           {todos.map((t) => {
-            return <Todo key={t.id} todoData={t} deleteTodo={deleteTodo} />;
+            return <Todo key={t.id} todoData={t} deleteTodo={deleteTodo} doneTodo={doneTodo} />;
           })}
         </div>
       )}

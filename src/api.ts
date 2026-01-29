@@ -50,3 +50,42 @@ export async function deleteTodoFromApi(id: number): Promise<void> {
     throw error;
   }
 }
+
+export async function doneTodoInApi(todo: todoData): Promise<void> {
+  try {
+    const response = await fetch(`${apiUrlForTodos}?id=eq.${todo.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ done: todo.done }),
+    });
+    if (!response.ok) {
+      throw new Error(`Error updating todo: ${response.statusText}`);
+    }
+  } catch (error) {
+    throw new Error(`Done Todo Error: ${error}`);
+  }
+}
+
+export async function changeTodoInApi(todo: todoData): Promise<void> {
+  try {
+    const response = await fetch(`${apiUrlForTodos}?id=eq.${todo.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: todo.title,
+        content: todo.content,
+        due_date: todo.due_date,
+        done: todo.done,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`Error updating todo: ${response.statusText}`);
+    }
+  } catch (error) {
+    throw new Error(`Done Todo Error: ${error}`);
+  }
+}

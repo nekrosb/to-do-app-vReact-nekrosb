@@ -13,7 +13,6 @@ export interface todoContent {
   done: boolean;
 }
 
-
 export interface filterState {
   date: boolean;
   name: boolean;

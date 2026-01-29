@@ -8,7 +8,8 @@ import {
   fetchTodos,
   deleteTodoFromApi,
   doneTodoInApi,
-  changeTodoInApi } from './api';
+  changeTodoInApi,
+} from './api';
 import { LoaderScrin } from './loaderScrin';
 import { FilterMenu } from './filterMenu';
 
@@ -28,16 +29,15 @@ export default function App(): JSX.Element {
     date: false,
     name: false,
     done: false,
-    unDone: false
-  })
+    unDone: false,
+  });
 
-const changeFilter = (filterName: string) => {
+  const changeFilter = (filterName: string) => {
     setfilter((prevFilter) => ({
       ...prevFilter,
       [filterName]: !prevFilter[filterName as keyof filterState],
     }));
-}
-  
+  };
 
   const load = async () => {
     try {
@@ -92,40 +92,37 @@ const changeFilter = (filterName: string) => {
     setTodos(t);
   };
 
-const filteredTodos: todoData[] = todos.filter((todo) => {
-    if (filter.done && todo.done) return true
-    if (filter.unDone && !todo.done) return true
+  const filteredTodos: todoData[] = todos
+    .filter((todo) => {
+      if (filter.done && todo.done) return true;
+      if (filter.unDone && !todo.done) return true;
 
-if (!filter.done && !filter.unDone) return true 
+      if (!filter.done && !filter.unDone) return true;
 
-    return false
-}).sort((a, b) => {
-  if (filter.date) {
-
+      return false;
+    })
+    .sort((a, b) => {
+      if (filter.date) {
         const aHasDate = Boolean(a.due_date);
-    const bHasDate = Boolean(b.due_date);
+        const bHasDate = Boolean(b.due_date);
 
+        if (!aHasDate && bHasDate) return 1;
+        if (aHasDate && !bHasDate) return -1;
 
-    if (!aHasDate && bHasDate) return 1;
-    if (aHasDate && !bHasDate) return -1;
+        if (!aHasDate && !bHasDate) return 0;
 
-    
-    if (!aHasDate && !bHasDate) return 0;
-    
-    return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
-  }
+        return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
+      }
 
-  if (filter.name) {
-    return a.title.localeCompare(b.title);
-  }
+      if (filter.name) {
+        return a.title.localeCompare(b.title);
+      }
 
-  return 0
-})
-
-
+      return 0;
+    });
 
   return (
-<div className="main-container">
+    <div className="main-container">
       <header>
         <h1>Todo App</h1>
         {switcher === 'main' && (
@@ -154,7 +151,6 @@ if (!filter.done && !filter.unDone) return true
             title="filter"
           />
         )}
-
       </header>
 
       {switcher === 'main' && !loading && (
@@ -194,10 +190,13 @@ if (!filter.done && !filter.unDone) return true
         />
       )}
 
-{switcher === "filter" && (
-    <FilterMenu click={changeFilter}  filter={filter} onClose={() => setSwitcher('main')} />
-)}
-
-</div>
+      {switcher === 'filter' && (
+        <FilterMenu
+          click={changeFilter}
+          filter={filter}
+          onClose={() => setSwitcher('main')}
+        />
+      )}
+    </div>
   );
 }

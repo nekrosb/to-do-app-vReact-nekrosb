@@ -10,7 +10,7 @@ import {
   doneTodoInApi,
   changeTodoInApi } from './api';
 import { LoaderScrin } from './loaderScrin';
-import { FilterMenu } from './filterMenu';;
+import { FilterMenu } from './filterMenu';
 
 export default function App(): JSX.Element {
   const [switcher, setSwitcher] = useState('main');
@@ -105,14 +105,13 @@ if (!filter.done && !filter.unDone) return true
         const aHasDate = Boolean(a.due_date);
     const bHasDate = Boolean(b.due_date);
 
-    // если у одного даты нет — он в конец
+
     if (!aHasDate && bHasDate) return 1;
     if (aHasDate && !bHasDate) return -1;
 
-    // если у обоих нет даты — равны
+    
     if (!aHasDate && !bHasDate) return 0;
-
-
+    
     return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
   }
 

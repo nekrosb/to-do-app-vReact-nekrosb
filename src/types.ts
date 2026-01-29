@@ -12,3 +12,11 @@ export interface todoContent {
   due_date: string;
   done: boolean;
 }
+
+
+export interface filterState {
+  date: boolean;
+  name: boolean;
+  done: boolean;
+  unDone: boolean;
+}

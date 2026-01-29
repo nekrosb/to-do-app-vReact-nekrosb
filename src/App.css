@@ -1,4 +1,4 @@
-/* ====== GLOBAL RESET ====== */
+header/* ====== GLOBAL RESET ====== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -20,6 +20,17 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding: 24px;
+}
+
+ul li {
+  overflow-wrap: break-word;
+}
+
+header {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 24px;
+  
 }
 
 /* ====== MAIN CONTAINER ====== */
@@ -72,6 +83,7 @@ body {
 /* ====== BUTTON VARIANTS ====== */
 .btn-open {
   background: linear-gradient(135deg, #4f7cff, #355ee8);
+  margin: 15px 0px;
 }
 
 .btn-delete-all {
@@ -89,7 +101,7 @@ body {
 /* ====== TODOS CONTAINER ====== */
 .todos-container {
   display: flex;
-  flex-wrap: wrap;
+flex-wrap: wrap;
   gap: 18px;
   padding: 22px;
   border-radius: 16px;
@@ -102,8 +114,10 @@ body {
   background: #1c2130;
   border-radius: 14px;
   padding: 18px;
+  overflow-wrap: break-word;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   gap: 14px;
   border: 1px solid #262c3f;
   transition:

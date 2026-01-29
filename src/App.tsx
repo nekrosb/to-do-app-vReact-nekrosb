@@ -1,4 +1,4 @@
-import type { todoData } from './types';
+import type { todoData, filterState } from './types';
 import './App.css';
 import { Button } from './Buttons';
 import { MenuCreateTodo } from './MenuCreateTodo';
@@ -8,9 +8,9 @@ import {
   fetchTodos,
   deleteTodoFromApi,
   doneTodoInApi,
-  changeTodoInApi,
-} from './api';
+  changeTodoInApi } from './api';
 import { LoaderScrin } from './loaderScrin';
+import { FilterMenu } from './filterMenu';;
 
 export default function App(): JSX.Element {
   const [switcher, setSwitcher] = useState('main');
@@ -24,6 +24,20 @@ export default function App(): JSX.Element {
   const [todos, setTodos] = useState<todoData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTodoId, setActiveTodoId] = useState<number | null>(null);
+  const [filter, setfilter] = useState<filterState>({
+    date: false,
+    name: false,
+    done: false,
+    unDone: false
+  })
+
+const changeFilter = (filterName: string) => {
+    setfilter((prevFilter) => ({
+      ...prevFilter,
+      [filterName]: !prevFilter[filterName as keyof filterState],
+    }));
+}
+  
 
   const load = async () => {
     try {
@@ -78,8 +92,41 @@ export default function App(): JSX.Element {
     setTodos(t);
   };
 
+const filteredTodos: todoData[] = todos.filter((todo) => {
+    if (filter.done && todo.done) return true
+    if (filter.unDone && !todo.done) return true
+
+if (!filter.done && !filter.unDone) return true 
+
+    return false
+}).sort((a, b) => {
+  if (filter.date) {
+
+        const aHasDate = Boolean(a.due_date);
+    const bHasDate = Boolean(b.due_date);
+
+    // если у одного даты нет — он в конец
+    if (!aHasDate && bHasDate) return 1;
+    if (aHasDate && !bHasDate) return -1;
+
+    // если у обоих нет даты — равны
+    if (!aHasDate && !bHasDate) return 0;
+
+
+    return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
+  }
+
+  if (filter.name) {
+    return a.title.localeCompare(b.title);
+  }
+
+  return 0
+})
+
+
+
   return (
-    <div className="main-container">
+<div className="main-container">
       <header>
         <h1>Todo App</h1>
         {switcher === 'main' && (
@@ -99,10 +146,21 @@ export default function App(): JSX.Element {
             title="clear todos"
           />
         )}
+
+        {switcher === 'main' && (
+          <Button
+            type="button"
+            classss="btn btn-open"
+            onClick={() => funcToSwitch('filter', setSwitcher)}
+            title="filter"
+          />
+        )}
+
       </header>
+
       {switcher === 'main' && !loading && (
         <div className="todos-container">
-          {todos.map((t) => {
+          {filteredTodos.map((t) => {
             return (
               <Todo
                 key={t.id}
@@ -136,6 +194,11 @@ export default function App(): JSX.Element {
           submit={changeingTodo}
         />
       )}
-    </div>
+
+{switcher === "filter" && (
+    <FilterMenu click={changeFilter}  filter={filter} onClose={() => setSwitcher('main')} />
+)}
+
+</div>
   );
 }

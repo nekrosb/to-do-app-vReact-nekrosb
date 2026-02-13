@@ -53,13 +53,9 @@ export default function App(): JSX.Element {
     }
   };
 
-  const deleteTodo = (id: number) => {
+  const deleteTodo = async (id: number) => {
     setTodos((t) => t.filter((todo) => todo.id !== id));
-    try {
-      deleteTodoFromApi(id, errorDetect);
-    } catch (error) {
-      errorDetect(`${error}`);
-    }
+    await deleteTodoFromApi(id, errorDetect);
   };
 
   useEffect(() => {
@@ -74,11 +70,7 @@ export default function App(): JSX.Element {
     }
     todo.done = !todo.done;
 
-    try {
-      await doneTodoInApi(todo, errorDetect);
-    } catch (error) {
-      errorDetect(`${error}`);
-    }
+    await doneTodoInApi(todo, errorDetect);
 
     setTodos(t);
   };
@@ -98,12 +90,8 @@ export default function App(): JSX.Element {
     aldTodo.content = content;
     aldTodo.due_date = date;
 
-    try {
-      await changeTodoInApi(aldTodo, errorDetect);
-      setTodos(t);
-    } catch (error) {
-      errorDetect(`${error}`);
-    }
+    await changeTodoInApi(aldTodo, errorDetect);
+    setTodos(t);
   };
 
   const filteredTodos: todoData[] = todos

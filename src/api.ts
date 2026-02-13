@@ -9,14 +9,14 @@ export async function fetchTodos(
     const response = await fetch(apiUrlForTodos);
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      throw new Error(`Error fetching todos: ${response.statusText}`);
+      return [];
     }
     const data = await response.json();
     return data;
   } catch (error) {
     errorDet(`${error}`);
     console.error('Fetch Todos Error:', error);
-    throw error;
+    return [];
   }
 }
 
@@ -35,14 +35,14 @@ export async function postTodo(
     });
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      throw new Error(`Error posting todo: ${response.statusText}`);
+      return [];
     }
     const data = await response.json();
     return data;
   } catch (error) {
     errorDet(`${error}`);
     console.error('Post Todo Error:', error);
-    throw error;
+    return [];
   }
 }
 
@@ -56,12 +56,12 @@ export async function deleteTodoFromApi(
     });
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      throw new Error(`Error deleting todo: ${response.statusText}`);
+      return;
     }
   } catch (error) {
     errorDet(`${error}`);
     console.error('Delete Todo Error:', error);
-    throw error;
+    return;
   }
 }
 
@@ -79,11 +79,11 @@ export async function doneTodoInApi(
     });
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      throw new Error(`Error updating todo: ${response.statusText}`);
+      return;
     }
   } catch (error) {
     errorDet(`${error}`);
-    throw new Error(`Done Todo Error: ${error}`);
+    return;
   }
 }
 
@@ -106,10 +106,10 @@ export async function changeTodoInApi(
     });
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      throw new Error(`Error updating todo: ${response.statusText}`);
+      return;
     }
   } catch (error) {
     errorDet(`${error}`);
-    throw new Error(`Done Todo Error: ${error}`);
+    return;
   }
 }

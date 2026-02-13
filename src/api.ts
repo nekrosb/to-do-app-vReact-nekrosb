@@ -35,14 +35,26 @@ export async function postTodo(
     });
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      return [];
+      return {
+        id: -0,
+        title: todo.title,
+        content: todo.content,
+        due_date: todo.due_date,
+        done: todo.done,
+      };
     }
     const data = await response.json();
     return data;
   } catch (error) {
     errorDet(`${error}`);
     console.error('Post Todo Error:', error);
-    return [];
+    return {
+      id: -0,
+      title: todo.title,
+      content: todo.content,
+      due_date: todo.due_date,
+      done: todo.done,
+    };
   }
 }
 

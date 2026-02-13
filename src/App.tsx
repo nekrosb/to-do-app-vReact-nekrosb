@@ -12,6 +12,7 @@ import {
 } from './api';
 import { LoaderScrin } from './loaderScrin';
 import { FilterMenu } from './filterMenu';
+import { ErrorScrin } from './errorScrin';
 
 export default function App(): JSX.Element {
   const [switcher, setSwitcher] = useState('main');
@@ -43,18 +44,18 @@ export default function App(): JSX.Element {
     try {
       setLoading(true);
 
-      const data = await fetchTodos();
+      const data = await fetchTodos(errorDetect);
       setTodos(data);
     } catch (error) {
-      throw new Error(`you have an error: ${error}`);
+      errorDetect(`${error}`);
     } finally {
       setLoading(false);
     }
   };
 
-  const deleteTodo = (id: number) => {
+  const deleteTodo = async (id: number) => {
     setTodos((t) => t.filter((todo) => todo.id !== id));
-    deleteTodoFromApi(id);
+    await deleteTodoFromApi(id, errorDetect);
   };
 
   useEffect(() => {
@@ -68,7 +69,8 @@ export default function App(): JSX.Element {
       return;
     }
     todo.done = !todo.done;
-    await doneTodoInApi(todo);
+
+    await doneTodoInApi(todo, errorDetect);
 
     setTodos(t);
   };
@@ -88,7 +90,7 @@ export default function App(): JSX.Element {
     aldTodo.content = content;
     aldTodo.due_date = date;
 
-    await changeTodoInApi(aldTodo);
+    await changeTodoInApi(aldTodo, errorDetect);
     setTodos(t);
   };
 
@@ -121,6 +123,18 @@ export default function App(): JSX.Element {
       return 0;
     });
 
+  const [errorText, setErrorText] = useState<string>('');
+
+  const errorDetect = (text: string, code?: number) => {
+    if (code) {
+      setErrorText(`${code} - ${text}`);
+    } else {
+      setErrorText(`${text}`);
+    }
+
+    funcToSwitch('error', setSwitcher);
+  };
+
   return (
     <div className="main-container">
       <header>
@@ -152,7 +166,6 @@ export default function App(): JSX.Element {
           />
         )}
       </header>
-
       {switcher === 'main' && !loading && (
         <div className="todos-container">
           {filteredTodos.map((t) => {
@@ -171,16 +184,13 @@ export default function App(): JSX.Element {
           })}
         </div>
       )}
-
       {switcher === 'main' && loading && <LoaderScrin />}
-
       {switcher === 'create' && (
         <MenuCreateTodo
           onClose={() => funcToSwitch('main', setSwitcher)}
           setTodos={setTodos}
         />
       )}
-
       {switcher === 'edit' && activeTodoId !== null && (
         <MenuCreateTodo
           onClose={() => setSwitcher('main')}
@@ -189,13 +199,16 @@ export default function App(): JSX.Element {
           submit={changeingTodo}
         />
       )}
-
       {switcher === 'filter' && (
         <FilterMenu
           click={changeFilter}
           filter={filter}
           onClose={() => setSwitcher('main')}
         />
+      )}
+      {}{' '}
+      {switcher === 'error' && (
+        <ErrorScrin errorMsg={errorText} onClose={() => setSwitcher('main')} />
       )}
     </div>
   );

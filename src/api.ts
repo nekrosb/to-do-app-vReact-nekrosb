@@ -2,21 +2,28 @@ import type { todoData, todoContent } from './types';
 
 const apiUrlForTodos = 'https://api.todos.in.jt-lab.ch/todos';
 
-export async function fetchTodos(): Promise<todoData[]> {
+export async function fetchTodos(
+  errorDet: (error: string, code?: number) => void,
+): Promise<todoData[]> {
   try {
     const response = await fetch(apiUrlForTodos);
     if (!response.ok) {
-      throw new Error(`Error fetching todos: ${response.statusText}`);
+      errorDet(response.statusText, response.status);
+      return [];
     }
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (error) {
+    errorDet(`${error}`);
     console.error('Fetch Todos Error:', error);
-    throw error;
+    return [];
   }
 }
 
-export async function postTodo(todo: todoContent): Promise<todoData> {
+export async function postTodo(
+  todo: todoContent,
+  errorDet: (error: string, code?: number) => void,
+): Promise<todoData> {
   try {
     const response = await fetch(apiUrlForTodos, {
       method: 'POST',
@@ -27,31 +34,53 @@ export async function postTodo(todo: todoContent): Promise<todoData> {
       body: JSON.stringify(todo),
     });
     if (!response.ok) {
-      throw new Error(`Error posting todo: ${response.statusText}`);
+      errorDet(response.statusText, response.status);
+      return {
+        id: -0,
+        title: todo.title,
+        content: todo.content,
+        due_date: todo.due_date,
+        done: todo.done,
+      };
     }
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (error) {
+    errorDet(`${error}`);
     console.error('Post Todo Error:', error);
-    throw error;
+    return {
+      id: -0,
+      title: todo.title,
+      content: todo.content,
+      due_date: todo.due_date,
+      done: todo.done,
+    };
   }
 }
 
-export async function deleteTodoFromApi(id: number): Promise<void> {
+export async function deleteTodoFromApi(
+  id: number,
+  errorDet: (error: string, code?: number) => void,
+): Promise<void> {
   try {
     const response = await fetch(`${apiUrlForTodos}?id=eq.${id}`, {
       method: 'DELETE',
     });
     if (!response.ok) {
-      throw new Error(`Error deleting todo: ${response.statusText}`);
+      errorDet(response.statusText, response.status);
+      return;
     }
   } catch (error) {
+    errorDet(`${error}`);
     console.error('Delete Todo Error:', error);
-    throw error;
+    return;
   }
 }
 
-export async function doneTodoInApi(todo: todoData): Promise<void> {
+export async function doneTodoInApi(
+  todo: todoData,
+  errorDet: (error: string, code?: number) => void,
+): Promise<void> {
   try {
     const response = await fetch(`${apiUrlForTodos}?id=eq.${todo.id}`, {
       method: 'PATCH',
@@ -61,14 +90,19 @@ export async function doneTodoInApi(todo: todoData): Promise<void> {
       body: JSON.stringify({ done: todo.done }),
     });
     if (!response.ok) {
-      throw new Error(`Error updating todo: ${response.statusText}`);
+      errorDet(response.statusText, response.status);
+      return;
     }
   } catch (error) {
-    throw new Error(`Done Todo Error: ${error}`);
+    errorDet(`${error}`);
+    return;
   }
 }
 
-export async function changeTodoInApi(todo: todoData): Promise<void> {
+export async function changeTodoInApi(
+  todo: todoData,
+  errorDet: (error: string, code?: number) => void,
+): Promise<void> {
   try {
     const response = await fetch(`${apiUrlForTodos}?id=eq.${todo.id}`, {
       method: 'PATCH',
@@ -83,9 +117,11 @@ export async function changeTodoInApi(todo: todoData): Promise<void> {
       }),
     });
     if (!response.ok) {
-      throw new Error(`Error updating todo: ${response.statusText}`);
+      errorDet(response.statusText, response.status);
+      return;
     }
   } catch (error) {
-    throw new Error(`Done Todo Error: ${error}`);
+    errorDet(`${error}`);
+    return;
   }
 }

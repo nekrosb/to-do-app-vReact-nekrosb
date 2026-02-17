@@ -1,18 +1,19 @@
-import type { todoData, filterState } from './types';
+import type { filterState, todoData } from './types';
 import './App.css';
-import { Button } from './Buttons';
-import { MenuCreateTodo } from './MenuCreateTodo';
-import { Todo } from './Todo';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  fetchTodos,
+  changeTodoInApi,
   deleteTodoFromApi,
   doneTodoInApi,
-  changeTodoInApi,
+  fetchTodos,
 } from './api';
-import { LoaderScrin } from './loaderScrin';
-import { FilterMenu } from './filterMenu';
+import { Button } from './Buttons';
 import { ErrorScrin } from './errorScrin';
+import { FilterMenu } from './filterMenu';
+import { LoaderScrin } from './loaderScrin';
+import { MenuCreateTodo } from './MenuCreateTodo';
+import { Todo } from './Todo';
+import { useTodoStore } from './useTodoStore';
 
 export default function App(): JSX.Element {
   const [switcher, setSwitcher] = useState('main');
@@ -23,8 +24,8 @@ export default function App(): JSX.Element {
     setSwitcher(scrin);
   };
 
-  const [todos, setTodos] = useState<todoData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { todos, loading, load, deleteTodo, doneTodo, changeingTodo } =
+    useTodoStore();
   const [activeTodoId, setActiveTodoId] = useState<number | null>(null);
   const [filter, setfilter] = useState<filterState>({
     date: false,
@@ -40,59 +41,9 @@ export default function App(): JSX.Element {
     }));
   };
 
-  const load = async () => {
-    try {
-      setLoading(true);
-
-      const data = await fetchTodos(errorDetect);
-      setTodos(data);
-    } catch (error) {
-      errorDetect(`${error}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const deleteTodo = async (id: number) => {
-    setTodos((t) => t.filter((todo) => todo.id !== id));
-    await deleteTodoFromApi(id, errorDetect);
-  };
-
   useEffect(() => {
-    load();
+    load(errorDetect);
   }, []);
-
-  const doneTodo = async (id: number) => {
-    const t: todoData[] = [...todos];
-    const todo = t.find((todo) => todo.id === id);
-    if (!todo) {
-      return;
-    }
-    todo.done = !todo.done;
-
-    await doneTodoInApi(todo, errorDetect);
-
-    setTodos(t);
-  };
-
-  const changeingTodo = async (
-    id: number,
-    title: string,
-    content: string,
-    date: string,
-  ) => {
-    const t = [...todos];
-    const aldTodo = t.find((t) => t.id === id);
-    if (!aldTodo) {
-      return;
-    }
-    aldTodo.title = title;
-    aldTodo.content = content;
-    aldTodo.due_date = date;
-
-    await changeTodoInApi(aldTodo, errorDetect);
-    setTodos(t);
-  };
 
   const filteredTodos: todoData[] = todos
     .filter((todo) => {
@@ -173,12 +124,11 @@ export default function App(): JSX.Element {
               <Todo
                 key={t.id}
                 todoData={t}
-                deleteTodo={deleteTodo}
-                doneTodo={doneTodo}
                 onEdit={(): void => {
                   setActiveTodoId(t.id);
                   setSwitcher('edit');
                 }}
+                err={errorDetect}
               />
             );
           })}
@@ -188,15 +138,14 @@ export default function App(): JSX.Element {
       {switcher === 'create' && (
         <MenuCreateTodo
           onClose={() => funcToSwitch('main', setSwitcher)}
-          setTodos={setTodos}
+          err={errorDetect}
         />
       )}
       {switcher === 'edit' && activeTodoId !== null && (
         <MenuCreateTodo
           onClose={() => setSwitcher('main')}
-          setTodos={setTodos}
           idTodo={activeTodoId}
-          submit={changeingTodo}
+          err={errorDetect}
         />
       )}
       {switcher === 'filter' && (

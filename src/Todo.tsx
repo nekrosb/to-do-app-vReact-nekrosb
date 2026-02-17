@@ -1,19 +1,17 @@
 import { Button } from './Buttons';
 import type { todoData } from './types';
+import { useTodoStore } from './useTodoStore';
 
 type props = {
   todoData: todoData;
-  deleteTodo: (id: number) => void;
-  doneTodo: (id: number) => void;
   onEdit: () => void;
+  err: (text: string, code: number) => void;
 };
 
-export function Todo({
-  todoData,
-  deleteTodo,
-  doneTodo,
-  onEdit,
-}: props): JSX.Element {
+export function Todo({ todoData, onEdit, err }: props): JSX.Element {
+  const deleteTodo = useTodoStore((s) => s.deleteTodo);
+  const doneTodo = useTodoStore((s) => s.doneTodo);
+
   return (
     <div className={!todoData.done ? 'todo-item' : 'todo-item completed'}>
       <ul>
@@ -27,13 +25,13 @@ export function Todo({
         type="button"
         title={todoData.done ? 'undo' : 'done'}
         classss="btn btn-complete"
-        onClick={() => doneTodo(todoData.id)}
+        onClick={() => doneTodo(todoData.id, err)}
       />
       <Button
         type="button"
         title="delete"
         classss="btn btn-delete"
-        onClick={() => deleteTodo(todoData.id)}
+        onClick={() => deleteTodo(todoData.id, err)}
       />
 
       <Button

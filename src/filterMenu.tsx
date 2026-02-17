@@ -1,5 +1,5 @@
-import type { filterState } from './types';
 import { Button } from './Buttons';
+import type { filterState } from './types';
 
 type props = {
   click: (filterName: string) => void;

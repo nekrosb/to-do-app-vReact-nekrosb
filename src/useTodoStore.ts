@@ -1,32 +1,38 @@
 import { create } from 'zustand';
-import type { todoData, todoContent } from './types';
 import {
-  fetchTodos,
+  changeTodoInApi,
   deleteTodoFromApi,
   doneTodoInApi,
-  changeTodoInApi,
+  fetchTodos,
   postTodo,
 } from './api';
+import type { todoContent, todoData } from './types';
 
 interface TodoStore {
   todos: todoData[];
   loading: boolean;
 
-  load: (errorHandler: any) => Promise<void>;
-  deleteTodo: (id: number, errorHandler: any) => Promise<void>;
-  doneTodo: (id: number, errorHandler: any) => Promise<void>;
+  load: (errorHandler: (text: string, code?: number) => void) => Promise<void>;
+  deleteTodo: (
+    id: number,
+    errorHandler: (text: string, code?: number) => void,
+  ) => Promise<void>;
+  doneTodo: (
+    id: number,
+    errorHandler: (text: string, code?: number) => void,
+  ) => Promise<void>;
   changeingTodo: (
     id: number,
     title: string,
     content: string,
     date: string,
-    errorHandler: any,
+    errorHandler: (text: string, code?: number) => void,
   ) => Promise<void>;
   addTodo: (
     title: string,
     content: string,
     date: string,
-    errorHandler: any,
+    errorHandler: (text: string, code?: number) => void,
   ) => Promise<void>;
 }
 
@@ -47,21 +53,30 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
   },
 
   deleteTodo: async (id, errorHandler) => {
-    set((state) => ({
-      todos: state.todos.filter((t) => t.id !== id),
-    }));
-    await deleteTodoFromApi(id, errorHandler);
+    try {
+      await deleteTodoFromApi(id, errorHandler);
+      set((state) => ({
+        todos: state.todos.filter((t) => t.id !== id),
+      }));
+    } catch (e) {
+      errorHandler(`${e}`);
+      throw new Error(`Delete Todo Error: ${e}`);
+    }
   },
 
   doneTodo: async (id, errorHandler) => {
-    const todos = [...get().todos];
-    const todo = todos.find((t) => t.id === id);
-    if (!todo) return;
+    try {
+      const todos = [...get().todos];
+      const todo = todos.find((t) => t.id === id);
+      if (!todo) return;
 
-    todo.done = !todo.done;
-    await doneTodoInApi(todo, errorHandler);
+      todo.done = !todo.done;
+      await doneTodoInApi(todo, errorHandler);
 
-    set({ todos });
+      set({ todos });
+    } catch (e) {
+      errorHandler(`${e}`);
+    }
   },
 
   changeingTodo: async (id, title, content, date, errorHandler) => {
@@ -72,16 +87,19 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
     todo.title = title;
     todo.content = content;
     todo.due_date = date;
-
-    await changeTodoInApi(todo, errorHandler);
-    set({ todos });
+    try {
+      await changeTodoInApi(todo, errorHandler);
+      set({ todos });
+    } catch (e) {
+      errorHandler(`${e}`);
+    }
   },
 
   addTodo: async (
     title: string,
     content: string,
     date: string,
-    errorHandler: any,
+    errorHandler: (text: string, code?: number) => void,
   ) => {
     const t: todoContent = {
       title: title,
@@ -89,10 +107,13 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
       due_date: date,
       done: false,
     };
-    const todo = await postTodo(t, errorHandler);
-
-    set((state) => ({
-      todos: [...state.todos, todo],
-    }));
+    try {
+      const todo = await postTodo(t, errorHandler);
+      set((state) => ({
+        todos: [...state.todos, todo],
+      }));
+    } catch (e) {
+      errorHandler(`${e}`);
+    }
   },
 }));

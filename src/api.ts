@@ -1,6 +1,6 @@
-import type { todoData, todoContent } from './types';
+import type { todoContent, todoData } from './types';
 
-const apiUrlForTodos = '1https://api.todos.in.jt-lab.ch/todos';
+const apiUrlForTodos = 'https://api.todos.in.jt-lab.ch/todos';
 
 export async function fetchTodos(
   errorDet: (error: string, code?: number) => void,

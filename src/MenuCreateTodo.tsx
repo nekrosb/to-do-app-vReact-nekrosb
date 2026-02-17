@@ -1,5 +1,5 @@
 import './App.css';
-import { useActionState, type Dispatch, type SetStateAction } from 'react';
+import { type Dispatch, type SetStateAction, useActionState } from 'react';
 import { Button } from './Buttons';
 import { Input } from './Input';
 import type { todoData } from './types';

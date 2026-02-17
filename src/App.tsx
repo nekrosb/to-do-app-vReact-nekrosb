@@ -1,18 +1,18 @@
-import type { todoData, filterState } from './types';
+import type { filterState, todoData } from './types';
 import './App.css';
-import { Button } from './Buttons';
-import { MenuCreateTodo } from './MenuCreateTodo';
-import { Todo } from './Todo';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  fetchTodos,
+  changeTodoInApi,
   deleteTodoFromApi,
   doneTodoInApi,
-  changeTodoInApi,
+  fetchTodos,
 } from './api';
-import { LoaderScrin } from './loaderScrin';
-import { FilterMenu } from './filterMenu';
+import { Button } from './Buttons';
 import { ErrorScrin } from './errorScrin';
+import { FilterMenu } from './filterMenu';
+import { LoaderScrin } from './loaderScrin';
+import { MenuCreateTodo } from './MenuCreateTodo';
+import { Todo } from './Todo';
 import { useTodoStore } from './useTodoStore';
 
 export default function App(): JSX.Element {

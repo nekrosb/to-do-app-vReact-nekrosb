@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { todoData, todoContent } from '../types';
+import type { todoData, todoContent } from './types';
 import {
   fetchTodos,
   deleteTodoFromApi,
@@ -12,7 +12,7 @@ interface TodoStore {
   todos: todoData[];
   loading: boolean;
 
-  load: (errorHandler: (text: string, code?: number) => void) => Promise<void>;
+  load: (errorHandler: any) => Promise<void>;
   deleteTodo: (id: number, errorHandler: any) => Promise<void>;
   doneTodo: (id: number, errorHandler: any) => Promise<void>;
   changeingTodo: (

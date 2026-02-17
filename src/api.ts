@@ -1,6 +1,6 @@
 import type { todoData, todoContent } from './types';
 
-const apiUrlForTodos = 'https://api.todos.in.jt-lab.ch/todos';
+const apiUrlForTodos = '1https://api.todos.in.jt-lab.ch/todos';
 
 export async function fetchTodos(
   errorDet: (error: string, code?: number) => void,
@@ -9,14 +9,14 @@ export async function fetchTodos(
     const response = await fetch(apiUrlForTodos);
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      return [];
+      throw new Error(`Fetch Todos Failed: ${response.statusText}`);
     }
     const data = await response.json();
     return data;
   } catch (error) {
     errorDet(`${error}`);
     console.error('Fetch Todos Error:', error);
-    return [];
+    throw new Error(`Fetch Todos Error: ${error}`);
   }
 }
 
@@ -56,12 +56,12 @@ export async function deleteTodoFromApi(
     });
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      return;
+      throw new Error(`Delete Todo Failed: ${response.statusText}`);
     }
   } catch (error) {
     errorDet(`${error}`);
     console.error('Delete Todo Error:', error);
-    return;
+    throw new Error(`Delete Todo Error: ${error}`);
   }
 }
 
@@ -79,11 +79,11 @@ export async function doneTodoInApi(
     });
     if (!response.ok) {
       errorDet(response.statusText, response.status);
-      return;
+      throw new Error(`Toggle Done Failed: ${response.statusText}`);
     }
   } catch (error) {
     errorDet(`${error}`);
-    return;
+    throw new Error(`Toggle Done Error: ${error}`);
   }
 }
 

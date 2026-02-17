@@ -1,27 +1,24 @@
 import './App.css';
 import { useActionState, type Dispatch, type SetStateAction } from 'react';
-import { postTodo } from './api';
 import { Button } from './Buttons';
 import { Input } from './Input';
 import type { todoData } from './types';
+import { useTodoStore } from './useTodoStore';
 
 type Props = {
   onClose?: () => void;
-  setTodos: Dispatch<SetStateAction<todoData[]>>;
   idTodo?: number;
-  submit?: (
-    idTodo: number,
-    title: string,
-    content: string,
-    date: string,
-  ) => Promise<void>;
+  err: (text: string, code?: number) => void;
 };
 
 type FormState = {
   error?: string;
 };
 
-export function MenuCreateTodo({ onClose, setTodos, idTodo, submit }: Props) {
+export function MenuCreateTodo({ onClose, idTodo, err }: Props) {
+  const addTodo = useTodoStore((s) => s.addTodo);
+  const changeingTodo = useTodoStore((s) => s.changeingTodo);
+
   const [state, createTodo, isPending] = useActionState<FormState, FormData>(
     async (_prevState, formData) => {
       const title = formData.get('title') as string;
@@ -32,17 +29,10 @@ export function MenuCreateTodo({ onClose, setTodos, idTodo, submit }: Props) {
         return { error: 'you must fill all fields' };
       }
 
-      if (submit && idTodo !== undefined) {
-        await submit(idTodo, title, content, date);
+      if (idTodo !== undefined) {
+        await changeingTodo(idTodo, title, content, date, err);
       } else {
-        const todo = await postTodo({
-          title: title,
-          content: content,
-          due_date: date,
-          done: false,
-        });
-
-        setTodos((t) => [...t, todo]);
+        await addTodo(title, content, date, err);
       }
       onClose?.();
       return {};

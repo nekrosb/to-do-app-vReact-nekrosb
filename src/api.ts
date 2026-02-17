@@ -113,3 +113,21 @@ export async function changeTodoInApi(
     throw new Error(`Change Todo Error: ${error}`);
   }
 }
+
+export async function deleteAllTodoFromApi(
+  errorDet: (error: string, code?: number) => void,
+): Promise<void> {
+  try {
+    const response = await fetch(`${apiUrlForTodos}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      errorDet(response.statusText, response.status);
+      throw new Error(`Delete All Todos Failed: ${response.statusText}`);
+    }
+  } catch (e) {
+    errorDet(`${e}`);
+    console.error('Delete All Todos Error:', e);
+    throw new Error(`Delete All Todos Error: ${e}`);
+  }
+}

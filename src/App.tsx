@@ -24,8 +24,16 @@ export default function App(): JSX.Element {
     setSwitcher(scrin);
   };
 
-  const { todos, loading, load, deleteTodo, doneTodo, changeingTodo } =
-    useTodoStore();
+  const {
+    todos,
+    loading,
+    load,
+    deleteTodo,
+    doneTodo,
+    changeingTodo,
+    addTodo,
+    deleteAllTodos,
+  } = useTodoStore();
   const [activeTodoId, setActiveTodoId] = useState<number | null>(null);
   const [filter, setfilter] = useState<filterState>({
     date: false,
@@ -103,7 +111,7 @@ export default function App(): JSX.Element {
           <Button
             type="button"
             classss="btn btn-delete-all"
-            onClick={() => console.log('clear todos')}
+            onClick={() => deleteAllTodos(errorDetect)}
             title="clear todos"
           />
         )}

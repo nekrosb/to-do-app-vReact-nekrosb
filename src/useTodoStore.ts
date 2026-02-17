@@ -5,6 +5,7 @@ import {
   doneTodoInApi,
   fetchTodos,
   postTodo,
+  deleteAllTodoFromApi,
 } from './api';
 import type { todoContent, todoData } from './types';
 
@@ -32,6 +33,9 @@ interface TodoStore {
     title: string,
     content: string,
     date: string,
+    errorHandler: (text: string, code?: number) => void,
+  ) => Promise<void>;
+  deleteAllTodos: (
     errorHandler: (text: string, code?: number) => void,
   ) => Promise<void>;
 }
@@ -112,6 +116,15 @@ export const useTodoStore = create<TodoStore>((set, get) => ({
       set((state) => ({
         todos: [...state.todos, todo],
       }));
+    } catch (e) {
+      errorHandler(`${e}`);
+    }
+  },
+
+  deleteAllTodos: async (errorHandler) => {
+    try {
+      await deleteAllTodoFromApi(errorHandler);
+      set({ todos: [] });
     } catch (e) {
       errorHandler(`${e}`);
     }
